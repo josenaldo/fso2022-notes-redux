@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import FormattedDate from '@/components/FormattedDate'
+
 import './Note.css'
-import FormattedDate from 'components/FormattedDate'
 
 /**
  * Component that displays a note with a content, date and importance status.

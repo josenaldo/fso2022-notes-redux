@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import Note from './Note'
+import Note from '@/components/Note'
 
 test('renders content', () => {
   const note = {
@@ -16,7 +16,6 @@ test('renders content', () => {
   const { container } = render(<Note note={note} />)
 
   const element = container.querySelector('.note')
-  screen.debug(element)
 
   expect(element).toHaveTextContent(
     'Component testing is done with react-testing-library'
