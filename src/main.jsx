@@ -2,15 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createStore } from 'redux'
 
+import noteReducer from '@/reducers/noteReducer'
+
 import App from './App'
-
-const noteReducer = (state = [], action) => {
-  if (action.type === 'NEW_NOTE') {
-    return state.concat(action.payload)
-  }
-
-  return state
-}
 
 const store = createStore(noteReducer)
 

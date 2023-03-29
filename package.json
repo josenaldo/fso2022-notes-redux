@@ -11,7 +11,7 @@
     "lint": "eslint --ext .js,.jsx --ignore-path .gitignore src ",
     "lint:fix": "eslint --ext .js,.jsx --ignore-path .gitignore --fix src",
     "test": "jest",
-    "test:watch": "react-scripts test --watchAll",
+    "test:watch": "jest --watchAll",
     "test:coverage": "react-scripts test --coverage",
     "test:e2e": "cypress run",
     "cypress:open": "cypress open"
