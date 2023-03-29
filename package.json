@@ -38,6 +38,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "babel-jest": "^29.5.0",
     "cypress": "^12.8.1",
+    "deep-freeze": "^0.0.1",
     "deep-freeze-es6": "^2.0.0",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.8.0",
