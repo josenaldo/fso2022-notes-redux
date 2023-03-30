@@ -3,27 +3,35 @@ import './App.css'
 
 const generateId = () => Number((Math.random() * 1000000).toFixed(0))
 
-function App({ store }) {
+const createNote = (content) => {
+  return {
+    type: 'NEW_NOTE',
+    payload: {
+      content,
+      important: false,
+      id: generateId(),
+    },
+  }
+}
+
+const toggleImportanceOf = (id) => {
+  return {
+    type: 'TOGGLE_IMPORTANCE',
+    payload: { id },
+  }
+}
+
+const App = ({ store }) => {
   const addNote = (event) => {
     event.preventDefault()
     const content = event.target.note.value
     event.target.note.value = ''
 
-    store.dispatch({
-      type: 'NEW_NOTE',
-      payload: {
-        content,
-        important: false,
-        id: generateId(),
-      },
-    })
+    store.dispatch(createNote(content))
   }
 
-  const toggleImportanceOf = (id) => {
-    store.dispatch({
-      type: 'TOGGLE_IMPORTANCE',
-      payload: { id },
-    })
+  const handleNoteClick = (id) => {
+    store.dispatch(toggleImportanceOf(id))
   }
 
   return (
@@ -40,7 +48,7 @@ function App({ store }) {
 
         <div>
           {store.getState().map((note) => (
-            <article key={note.id} onClick={() => toggleImportanceOf(note.id)}>
+            <article key={note.id} onClick={() => handleNoteClick(note.id)}>
               {note.content}{' '}
               <strong>{note.important ? 'important' : ''}</strong>
             </article>
