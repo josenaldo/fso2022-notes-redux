@@ -63,7 +63,7 @@ describe('<Notes />', () => {
       expect(note1Content).toHaveTextContent('test content 1')
 
       const note1Importance = note1.querySelector('.note-importance')
-      expect(note1Importance).toHaveTextContent('important')
+      expect(note1Importance).toHaveTextContent('Important!')
 
       const note2 = container.querySelector('#note-2')
       expect(note2).toBeInTheDocument()
@@ -72,7 +72,7 @@ describe('<Notes />', () => {
       expect(note2Content).toHaveTextContent('test content 2')
 
       const note2Importance = note2.querySelector('.note-importance')
-      expect(note2Importance).not.toHaveTextContent('important')
+      expect(note2Importance).not.toBeInTheDocument()
     })
 
     it('calls dispatch function when note is clicked', async () => {

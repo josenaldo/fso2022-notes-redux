@@ -1,5 +1,5 @@
 /* Purple Dark scheme*/
-[data-theme='dark'] {
+:root {
   /* --primary: #7c4dff;
   --primary-hover: #6a40e0;
   --primary-focus: rgba(124, 77, 255, 0.25);
