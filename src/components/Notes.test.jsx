@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { useSelector, useDispatch } from 'react-redux'
 import userEvent from '@testing-library/user-event'
 
@@ -78,8 +78,6 @@ describe('<Notes />', () => {
     it('calls dispatch function when note is clicked', async () => {
       const user = userEvent.setup()
       const { container } = component
-
-      screen.debug()
 
       const note1 = container.querySelector('#note-1')
       expect(note1).toBeInTheDocument()
