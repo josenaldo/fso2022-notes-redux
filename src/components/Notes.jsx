@@ -4,7 +4,14 @@ import Note from '@/components/Note'
 
 const Notes = () => {
   const dispatch = useDispatch()
-  const notes = useSelector((state) => state.notes)
+  const notes = useSelector(({ filter, notes }) => {
+    if (filter === 'ALL') {
+      return notes
+    }
+    return filter === 'IMPORTANT'
+      ? notes.filter((note) => note.important)
+      : notes.filter((note) => !note.important)
+  })
 
   return (
     <div>

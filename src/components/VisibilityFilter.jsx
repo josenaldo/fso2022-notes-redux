@@ -1,10 +1,9 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { filterChange } from '@/reducers/filterReducer'
 
 const VisibilityFilter = () => {
   const dispatch = useDispatch()
-  const filter = useSelector((state) => state.filter)
 
   const handleChange = (event) => {
     const value = event.target.value
