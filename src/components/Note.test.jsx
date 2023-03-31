@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 
 import Note from '@/components/Note'
 
-describe('Note Component', () => {
+describe('<Note />', () => {
   let note
   let component
   let handleClickMock
