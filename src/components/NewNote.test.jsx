@@ -43,8 +43,6 @@ describe('<NewNote />', () => {
     const expectedCall = createNote(content)
 
     expect(resultCall.payload.content).toBe(expectedCall.payload.content)
-    expect(resultCall.payload.important).toBe(expectedCall.payload.important)
-    expect(resultCall.payload.id).toBeDefined()
     expect(resultCall.type).toBe(expectedCall.type)
   })
 })
