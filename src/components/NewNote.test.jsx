@@ -3,9 +3,22 @@ import '@testing-library/jest-dom/extend-expect'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useDispatch } from 'react-redux'
+import axios from 'axios'
 
 import NewNote from '@/components/NewNote'
 import { createNote } from '@/reducers/noteReducer'
+
+jest.mock('axios')
+
+axios.post.mockImplementation(() =>
+  Promise.resolve({
+    data: {
+      content: 'testing',
+      id: 1,
+      important: false,
+    },
+  })
+)
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -18,6 +31,8 @@ describe('<NewNote />', () => {
   beforeEach(() => {
     dispatchMock = jest.fn()
     useDispatch.mockReturnValue(dispatchMock)
+
+    jest.resetModules()
 
     container = render(<NewNote />).container
   })
@@ -40,7 +55,12 @@ describe('<NewNote />', () => {
 
     expect(dispatchMock).toHaveBeenCalledTimes(1)
     const resultCall = dispatchMock.mock.calls[0][0]
-    const expectedCall = createNote(content)
+
+    const expectedCall = createNote({
+      content,
+      id: expect.any(Number),
+      important: false,
+    })
 
     expect(resultCall.payload.content).toBe(expectedCall.payload.content)
     expect(resultCall.type).toBe(expectedCall.type)

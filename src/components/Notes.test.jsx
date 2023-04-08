@@ -14,10 +14,17 @@ describe('<Notes />', () => {
   let notes
   let component
   let dispatchMock
+  const env = process.env
 
   beforeEach(() => {
     dispatchMock = jest.fn()
     useDispatch.mockReturnValue(dispatchMock)
+    jest.resetModules()
+    process.env = { ...env, VITE_BACKEND_URL: 'http://localhost:3020' }
+  })
+
+  afterEach(() => {
+    process.env = env
   })
 
   describe('when there are no notes', () => {
