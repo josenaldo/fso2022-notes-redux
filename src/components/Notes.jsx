@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { updateNote } from '@/reducers/noteReducer'
+import { toggleImportanceOf } from '@/reducers/noteReducer'
 import Note from '@/components/Note'
 import noteService from '@/services/notes'
 
 const Notes = () => {
   const dispatch = useDispatch()
+
   const notes = useSelector(({ filter, notes }) => {
     if (filter === 'ALL') {
       return notes
@@ -22,7 +23,7 @@ const Notes = () => {
 
     const updatedNote = await noteService.update(note.id, noteToUpdate)
 
-    dispatch(updateNote(updatedNote))
+    dispatch(toggleImportanceOf(updatedNote.id))
   }
 
   return (

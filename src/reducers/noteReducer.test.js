@@ -1,93 +1,83 @@
-import noteReducer from '@/reducers/noteReducer'
+// import { createNote } from '@/reducers/noteReducer'
 import { deepFreeze } from 'deep-freeze-es6'
-// import deepFreeze from 'deep-freeze'
 
-describe('noteReducer', () => {
-  it('return new state with action notes/createNote', () => {
-    const state = []
-    const action = {
-      type: 'notes/createNote',
-      payload: {
-        content: 'the app state is in redux store',
-        important: true,
-        id: 1,
-      },
-    }
+import { configureStore } from '@reduxjs/toolkit'
+import noteReducer, {
+  toggleImportanceOf,
+  appendNote,
+  setNotes,
+  initializeNotes,
+  createNote,
+} from '@/reducers/noteReducer'
+import noteService from '@/services/notes'
 
-    deepFreeze(state)
-    const newState = noteReducer(state, action)
+jest.mock('@/services/notes')
 
-    expect(newState).toHaveLength(1)
-    const expectedContents = newState.map((s) => s.content)
-    expect(expectedContents).toContain(action.payload.content)
+describe('noteSlice reducer', () => {
+  let store
+
+  beforeEach(() => {
+    store = configureStore({ reducer: noteReducer })
   })
 
-  test('returns new state with action notes/updateNote', () => {
-    const state = [
-      {
-        content: 'the app state is in redux store',
-        important: true,
-        id: 1,
-      },
-      {
-        content: 'state changes are made with actions',
-        important: false,
-        id: 2,
-      },
-    ]
+  it('should toggle importance of note', () => {
+    store.dispatch(
+      setNotes([
+        { id: '1', content: 'Test note 1', important: false },
+        { id: '2', content: 'Test note 2', important: false },
+      ])
+    )
 
-    const action = {
-      type: 'notes/updateNote',
-      payload: {
-        content: 'state changes are made with actions',
-        important: true,
-        id: 2,
-      },
-    }
+    store.dispatch(toggleImportanceOf('1'))
+    expect(store.getState()[0].important).toBe(true)
 
-    deepFreeze(state)
-    const newState = noteReducer(state, action)
-
-    expect(newState).toHaveLength(2)
-
-    expect(newState).toContainEqual(state[0])
-
-    expect(newState).toContainEqual({
-      content: 'state changes are made with actions',
-      important: true,
-      id: 2,
-    })
+    store.dispatch(toggleImportanceOf('1'))
+    expect(store.getState()[0].important).toBe(false)
   })
 
-  test('return new state with action notes/setNotes', () => {
-    const initialState = []
+  it('should append a note', () => {
+    const note = { id: '1', content: 'Test note', important: false }
+    store.dispatch(appendNote(note))
+    expect(store.getState()).toHaveLength(1)
+    expect(store.getState()[0]).toEqual(note)
+  })
 
+  it('should set notes', () => {
     const notes = [
-      {
-        content: 'the app state is in redux store',
-        important: true,
-        id: 1,
-      },
-      {
-        content: 'state changes are made with actions',
-        important: false,
-        id: 2,
-      },
+      { id: '1', content: 'Test note 1', important: false },
+      { id: '2', content: 'Test note 2', important: false },
+    ]
+    store.dispatch(setNotes(notes))
+    expect(store.getState()).toEqual(notes)
+  })
+})
+
+describe('noteSlice async actions', () => {
+  let store
+
+  beforeEach(() => {
+    store = configureStore({ reducer: noteReducer })
+  })
+
+  it('should initialize notes', async () => {
+    const notes = [
+      { id: '1', content: 'Test note 1', important: false },
+      { id: '2', content: 'Test note 2', important: false },
     ]
 
-    const action = {
-      type: 'notes/setNotes',
-      payload: notes,
-    }
+    noteService.getAll.mockResolvedValue(notes)
 
-    deepFreeze(initialState)
+    await store.dispatch(initializeNotes())
+    expect(store.getState()).toEqual(notes)
+  })
 
-    const newState = noteReducer(initialState, action)
+  it('should create a note', async () => {
+    const newNote = { id: '1', content: 'Test note', important: false }
 
-    expect(newState).toHaveLength(2)
+    noteService.create.mockResolvedValue(newNote)
 
-    expect(newState).toContainEqual(notes[0])
-
-    expect(newState).toContainEqual(notes[1])
+    await store.dispatch(createNote('Test note'))
+    expect(store.getState()).toHaveLength(1)
+    expect(store.getState()[0]).toEqual(newNote)
   })
 })

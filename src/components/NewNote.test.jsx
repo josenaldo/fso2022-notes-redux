@@ -62,7 +62,7 @@ describe('<NewNote />', () => {
       important: false,
     })
 
-    expect(resultCall.payload.content).toBe(expectedCall.payload.content)
+    expect(resultCall.payload).toBe(expectedCall.payload)
     expect(resultCall.type).toBe(expectedCall.type)
   })
 })

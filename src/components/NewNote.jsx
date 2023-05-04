@@ -7,11 +7,8 @@ const NewNote = () => {
 
   const addNote = async (event) => {
     event.preventDefault()
-
     const content = event.target.elements.note.value
-
     event.target.elements.note.value = ''
-
     dispatch(createNote(content))
   }
 
